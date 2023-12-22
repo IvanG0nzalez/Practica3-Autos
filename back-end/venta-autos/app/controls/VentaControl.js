@@ -280,28 +280,26 @@ class VentaControl {
     }
 
     async modificar(req, res) {
-        const external = req.params.external; // ID de la venta a modificar
-        const { autos } = req.body; // Lista de autos actualizada
+        const external = req.params.external;
+        const { autos } = req.body; 
     
         let transaction = await models.sequelize.transaction();
     
         try {
-            // Obtener la venta existente
-            const ventaExistente = await venta.findOne({
+            const ventaAux = await venta.findOne({
                 where: { external_id: external },
                 include: [
                     { model: models.auto, as: "auto", attributes: ['external_id', 'precio', 'color'] }
                 ]
             });
     
-            if (!ventaExistente) {
+            if (!ventaAux) {
                 res.status(404);
                 res.json({ msg: "Error", tag: "Venta no encontrada", code: 404 });
                 return;
             }
     
-            // Identificar los autos a agregar y eliminar
-            const autosActuales = ventaExistente.auto.map(auto => auto.external_id);
+            const autosActuales = ventaAux.auto.map(auto => auto.external_id);
             console.log("actuales", autosActuales);
             const autosEliminar = autosActuales.filter(autoId => !autos.includes(autoId));
             console.log("a eliminar", autosEliminar);
@@ -315,18 +313,17 @@ class VentaControl {
               });
               
             const idsAutosEliminar = autosEliminarConIDs.map(auto => auto.id);
-            console.log("ids de los autos a eliminar", idsAutosEliminar);
-            // Eliminar autos de la venta
-            await ventaExistente.removeAuto(idsAutosEliminar, { transaction });
+            await ventaAux.removeAuto(idsAutosEliminar, { transaction });
     
-            // Agregar nuevos autos a la venta
             const autosNuevos = await autO.findAll({ where: { external_id: autosAgregar } });
-            await ventaExistente.addAuto(autosNuevos, { transaction });
+            await ventaAux.addAuto(autosNuevos, { transaction });
+
+            const autosActualizados = ventaAux.auto.filter(auto => !autosEliminar.includes(auto.external_id));
+            autosActualizados.push(...autosNuevos);
     
-            // Calcular el nuevo recargo y total
             let recargoTotal = 0;
-            console.log("venta auto", ventaExistente.auto);
-            const totalPagar = ventaExistente.auto.reduce((total, auto) => {
+            console.log("venta-auto", ventaAux.auto);
+            const totalPagar = autosActualizados.reduce((total, auto) => {
                 console.log("auto", auto);
                 let precioAuto = auto.precio;
                 let recargoAuto = 0;
@@ -338,19 +335,18 @@ class VentaControl {
     
                 recargoTotal += recargoAuto;
 
-                console.log("precioAuto:", precioAuto);
-                console.log("recargoAuto:", recargoAuto);
-                console.log("total acumulado:", total + precioAuto);
+                //console.log("precioAuto:", precioAuto);
+                //console.log("recargoAuto:", recargoAuto);
+                //console.log("total acumulado:", total + precioAuto);
     
                 return total + precioAuto;
             }, 0);
 
 
-            console.log("recargoTotal:", recargoTotal);
-            console.log("totalPagar al final:", totalPagar);
+            //console.log("recargoTotal:", recargoTotal);
+            //console.log("totalPagar al final:", totalPagar);
     
-            // Actualizar la venta con la nueva información
-            await ventaExistente.update(
+            await ventaAux.update(
                 {
                     recargo: recargoTotal,
                     total: totalPagar,
