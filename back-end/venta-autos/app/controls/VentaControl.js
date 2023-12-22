@@ -264,6 +264,7 @@ class VentaControl {
                 //await autoAux.save();
                 for (const auto of autosEnBD) {
                     auto.external_id = uuid.v4();
+                    auto.estado = false;
                     await auto.save();
                 }
 
@@ -282,6 +283,8 @@ class VentaControl {
     async modificar(req, res) {
         const external = req.params.external;
         const { autos } = req.body; 
+
+        var uuid = require('uuid');
     
         let transaction = await models.sequelize.transaction();
     
@@ -299,22 +302,34 @@ class VentaControl {
                 return;
             }
     
-            const autosActuales = ventaAux.auto.map(auto => auto.external_id);
+            const autosActuales = ventaAux.auto.map(auto => ({ ...auto.toJSON(), estadoActual: auto.estado}));
             console.log("actuales", autosActuales);
-            const autosEliminar = autosActuales.filter(autoId => !autos.includes(autoId));
+
+            const autosEliminar = autosActuales.filter(auto => !autos.includes(auto.external_id));
             console.log("a eliminar", autosEliminar);
-            const autosAgregar = autos.filter(autoId => !autosActuales.includes(autoId));
+
+            const autosAgregar = autos.filter(autoId => !autosActuales.map(auto => auto.external_id).includes(autoId));
             console.log("agregar", autosAgregar);
+
+            const externalAutosAgregados = autosAgregar.map(() => uuid.v4());
+
+            for (const autoEliminar of autosEliminar) {
+                await autO.update({ estado: true }, { where: { external_id: autoEliminar.external_id }, transaction });
+            }
 
             const autosEliminarConIDs = await autO.findAll({
                 attributes: ['id'],
-                where: { external_id: autosEliminar },
+                where: { external_id: autosEliminar.map(auto => auto.external_id) },
                 transaction,
               });
               
             const idsAutosEliminar = autosEliminarConIDs.map(auto => auto.id);
             await ventaAux.removeAuto(idsAutosEliminar, { transaction });
     
+            for (const autoAgregar of autosAgregar) {
+                await autO.update({ estado: false }, { where: { external_id: autoAgregar }, transaction });
+            }
+
             const autosNuevos = await autO.findAll({ where: { external_id: autosAgregar } });
             await ventaAux.addAuto(autosNuevos, { transaction });
 
@@ -350,6 +365,7 @@ class VentaControl {
                 {
                     recargo: recargoTotal,
                     total: totalPagar,
+                    external_id: uuid.v4()
                 },
                 { transaction }
             );

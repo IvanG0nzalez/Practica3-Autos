@@ -7,8 +7,42 @@ var foto = models.foto;
 var extensiones = ['jpg', 'png', 'jpeg'];
 
 class AutoControl {
-    async listar(req, res) {
+    async listarAutos(req, res) {
         var lista = await auto.findAll({
+            include: [
+                { model: models.foto, as: "foto", attributes: ['archivo'] },
+            ],
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', ['external_id', 'id']]
+        });
+        if (lista === undefined || lista === null) {
+            res.status(200);
+            res.json({ msg: "OK", code: 200, datos: {} });
+        } else {
+            res.status(200);
+            res.json({ msg: "OK", code: 200, datos: lista });
+        }
+    }
+
+    async listarDisponibles(req, res) {
+        var lista = await auto.findAll({
+            where: { estado: true },
+            include: [
+                { model: models.foto, as: "foto", attributes: ['archivo'] },
+            ],
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', ['external_id', 'id']]
+        });
+        if (lista === undefined || lista === null) {
+            res.status(200);
+            res.json({ msg: "OK", code: 200, datos: {} });
+        } else {
+            res.status(200);
+            res.json({ msg: "OK", code: 200, datos: lista });
+        }
+    }
+
+    async listarVendidos(req, res) {
+        var lista = await auto.findAll({
+            where: { estado: false },
             include: [
                 { model: models.foto, as: "foto", attributes: ['archivo'] },
             ],
