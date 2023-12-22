@@ -1,0 +1,24 @@
+{
+    "development": {
+        "username": "admin",
+        "password": "1405",
+        "database": "db_autos",
+        "dialect": "mysql",
+        "host": "127.0.0.1",
+        "operatorAliases": false
+    },
+    "staging": {
+        "username":"admin_st",
+        "password":"1405",
+        "database":"db_autos",
+        "dialect":"mysql",
+        "operatorAliases":false
+    },
+    "production": {
+        "username":"admin_pd",
+        "password":"1405",
+        "database":"db_autos",
+        "dialect":"mysql",
+        "operatorAliases":false
+    }
+}
