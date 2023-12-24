@@ -12,7 +12,7 @@ class AutoControl {
             include: [
                 { model: models.foto, as: "foto", attributes: ['archivo'] },
             ],
-            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', ['external_id', 'id']]
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id']
         });
         if (lista === undefined || lista === null) {
             res.status(200);
@@ -29,7 +29,7 @@ class AutoControl {
             include: [
                 { model: models.foto, as: "foto", attributes: ['archivo'] },
             ],
-            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', ['external_id', 'id']]
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id']
         });
         if (lista === undefined || lista === null) {
             res.status(200);
@@ -46,7 +46,7 @@ class AutoControl {
             include: [
                 { model: models.foto, as: "foto", attributes: ['archivo'] },
             ],
-            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', ['external_id', 'id']]
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id']
         });
         if (lista === undefined || lista === null) {
             res.status(200);

@@ -9,7 +9,7 @@ class EmpleadoControl {
                 { model: models.cuenta, as: "cuenta", attributes: ['usuario'] },
                 { model: models.rol, as: "rol", attributes: ['nombre'] }
             ],
-            attributes: ['nombres', 'apellidos', ['external_id', 'id'], 'cedula', 'direccion', 'celular', 'genero']
+            attributes: ['nombres', 'apellidos', 'external_id', 'cedula', 'direccion', 'celular', 'genero']
         });
         if (lista === undefined || lista === null) {
             res.status(200);
@@ -28,7 +28,7 @@ class EmpleadoControl {
                 { model: models.cuenta, as: "cuenta", attributes: ['usuario'] },
                 { model: models.rol, as: "rol", attributes: ['nombre'] }
             ],
-            attributes: ['nombres', 'apellidos', ['external_id', 'id'], 'cedula', 'direccion', 'celular', 'genero']
+            attributes: ['nombres', 'apellidos', 'external_id', 'cedula', 'direccion', 'celular', 'genero']
         });
         if (lista === undefined || lista === null) {
             res.status(404);

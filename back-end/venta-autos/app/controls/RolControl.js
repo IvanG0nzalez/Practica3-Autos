@@ -6,7 +6,7 @@ var rol = models.rol;
 class RolControl {
     async listar(req, res) {
         var lista = await rol.findAll({
-            attributes: ['nombre', ['external_id', 'id']]
+            attributes: ['nombre', 'external_id']
         });
         if (lista === undefined || lista === null) {
             res.status(200);

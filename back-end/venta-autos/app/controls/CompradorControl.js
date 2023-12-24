@@ -9,7 +9,7 @@ class CompradorControl {
             include: [
                 { model: models.venta, as: "venta", attributes: ['numero', 'total', 'external_id'] },
             ],
-            attributes: ['nombres', 'apellidos', ['external_id', 'id'], 'cedula', 'direccion', 'celular', 'genero', 'fecha_nac']
+            attributes: ['nombres', 'apellidos', 'external_id', 'cedula', 'direccion', 'celular', 'genero', 'fecha_nac']
         });
         if (lista === undefined || lista === null) {
             res.status(200);

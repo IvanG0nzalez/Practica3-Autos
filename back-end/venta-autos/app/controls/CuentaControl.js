@@ -15,7 +15,7 @@ class CuentaControl {
             let cuentaAux = await cuenta.findOne({
                 where:{usuario: req.body.usuario},
                 include: [
-                    {model: models.empleado, as: "empleado", attributes: ['apellidos', 'nombres', 'id_rol']},
+                    {model: models.empleado, as: "empleado", attributes: ['apellidos', 'nombres', 'id_rol', 'external_id']},
                     //{model: models.empleado, as: "empleado", attributes: ['apellidos', 'nombres']},
                 ]
             });
@@ -42,9 +42,12 @@ class CuentaControl {
                         const token = jwt.sign(token_data, key, {
                             expiresIn: '2h' //depende de que app sea
                         });
+                        console.log(cuentaAux.empleado);
                         var info = {
                             token: token,
-                            user: cuentaAux.empleado.apellidos+' '+cuentaAux.empleado.nombres
+                            user: cuentaAux.empleado.apellidos+' '+cuentaAux.empleado.nombres,
+                            external_id: cuentaAux.empleado.external_id,
+                            rol: rolAux.nombre
                         };
                         res.status(200);
                         res.json({ msg: "OK", tag: "Logueado", code: 200, data:info }); 
