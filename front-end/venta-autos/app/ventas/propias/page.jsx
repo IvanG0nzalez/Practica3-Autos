@@ -17,7 +17,11 @@ export default function Page() {
             )}
             <div className="mb-2 mt-4">
                 <div className="d-flex gap-4">
-                    <h2>Listado de Ventas de {vendedor}</h2>
+                    <h2>Ventas de {vendedor}</h2>
+                    <Link href="/ventas/nuevo">
+                        <button className="btn btn-dark px-2">Nueva Venta</button>
+
+                    </Link>
                 </div>
             </div>
             <ListaVentasEmpleado></ListaVentasEmpleado>

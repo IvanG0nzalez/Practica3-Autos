@@ -105,7 +105,7 @@ class CompradorControl {
         compradorAux.direccion = direccion || compradorAux.direccion;
         compradorAux.celular = celular || compradorAux.celular;
         compradorAux.genero = genero || compradorAux.genero;
-        compradorAux.external_id = uuid.v4();
+        //compradorAux.external_id = uuid.v4();
 
         await compradorAux.save();
 

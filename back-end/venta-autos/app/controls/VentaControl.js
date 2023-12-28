@@ -33,12 +33,40 @@ class VentaControl {
         }
     }
 
+    async obtener(req, res) {
+        const external = req.params.external_id;
+        var lista = await venta.findOne({
+            where: { external_id: external },
+            include: [
+                { model: models.comprador, as: "comprador", attributes: ['nombres', 'apellidos', 'cedula', 'direccion', 'celular', 'genero', 'fecha_nac', 'external_id'] },
+                {
+                    model: models.auto,
+                    as: "auto",
+                    attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id'],
+                    include:
+                        [
+                            { model: models.foto, as: "foto", attributes: ['archivo', 'external_id'] }
+                        ]
+                }
+            ],
+            attributes: ['numero', 'recargo', 'total', 'external_id']
+        });
+        if (lista === undefined || lista === null) {
+            res.status(404);
+            res.json({ msg: "Error", tag: "Venta no encontrada", code: 404 });
+        } else {
+            res.status(200);
+            res.json({ msg: "OK", code: 200, datos: lista });
+        }
+
+    }
+
     async obtenerPorEmpleado(req, res) {
         const external = req.params.external_empleado;
 
         const empleadoAux = await empleadO.findOne({ where: { external_id: external } });
- 
-        if(!empleadoAux){
+
+        if (!empleadoAux) {
             res.status(401);
             res.json({ msg: "Error", tag: "El empleado no existe", code: 401 });
             return;
@@ -48,6 +76,7 @@ class VentaControl {
             where: { id_empleado: empleadoAux.id },
             include: [
                 { model: models.comprador, as: "comprador", attributes: ['nombres', 'apellidos', 'cedula', 'direccion', 'celular', 'genero', 'fecha_nac', 'external_id'] },
+                { model: models.empleado, as: "empleado", attributes: ['nombres', 'apellidos', 'cedula'] },
                 {
                     model: models.auto,
                     as: "auto",
@@ -72,62 +101,21 @@ class VentaControl {
     }
 
     async obtenerPorFechaYEmpleado(req, res) {
-        const {external_empleado, mes, anio} = req.params;
-
+        const { external_empleado, mes, anio } = req.params;
         const empleadoAux = await empleadO.findOne({ where: { external_id: external_empleado } });
- 
-        if(!empleadoAux){
+
+        if (!empleadoAux) {
             res.status(401);
             res.json({ msg: "Error", tag: "El empleado no existe", code: 401 });
             return;
-        } 
-
-        const fechaInicio = new Date(anio, mes - 1, 1);
-        const fechaFin =new Date(anio, mes, 0);
-
-        var lista = await venta.findAll({
-            where: { 
-                id_empleado: empleadoAux.id,
-                createdAt: {
-                    [models.Sequelize.Op.between]: [fechaInicio, fechaFin]
-                }
-            },
-            include: [
-                { model: models.comprador, as: "comprador", attributes: ['nombres', 'apellidos', 'cedula', 'direccion', 'celular', 'genero', 'fecha_nac', 'external_id'] },
-                {
-                    model: models.auto,
-                    as: "auto",
-                    attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id'],
-                    include:
-                        [
-                            { model: models.foto, as: "foto", attributes: ['archivo', 'external_id'] }
-                        ]
-                }
-            ],
-            attributes: ['numero', 'recargo', 'total', 'external_id']
-        });
-
-        if (lista === undefined || lista === null) {
-            res.status(404);
-            res.json({ msg: "Error", tag: "Ventas no encontradas", code: 404 });
-        } else if(lista.length === 0){
-            res.status(200);
-            res.json({ msg: "OK", tag:"No hay ventas en el mes o año ingresados", code: 200 });
-        } else {
-            res.status(200);
-            res.json({ msg: "OK", code: 200, datos: lista }); 
         }
 
-    }
-
-    async obtenerPorFecha(req, res) {
-        const {mes, anio} = req.params;
-
         const fechaInicio = new Date(anio, mes - 1, 1);
-        const fechaFin =new Date(anio, mes, 0);
+        const fechaFin = new Date(anio, mes, 0);
 
         var lista = await venta.findAll({
-            where: { 
+            where: {
+                id_empleado: empleadoAux.id,
                 createdAt: {
                     [models.Sequelize.Op.between]: [fechaInicio, fechaFin]
                 }
@@ -151,12 +139,53 @@ class VentaControl {
         if (lista === undefined || lista === null) {
             res.status(404);
             res.json({ msg: "Error", tag: "Ventas no encontradas", code: 404 });
-        } else if(lista.length === 0){
+        } else if (lista.length === 0) {
             res.status(200);
-            res.json({ msg: "OK", tag:"No hay ventas en el mes o año ingresados", code: 200 });
+            res.json({ msg: "OK", tag: "No hay ventas en el mes o año ingresados", code: 200, datos:{} });
         } else {
             res.status(200);
-            res.json({ msg: "OK", code: 200, datos: lista }); 
+            res.json({ msg: "OK", code: 200, datos: lista });
+        }
+
+    }
+
+    async obtenerPorFecha(req, res) {
+        const { mes, anio } = req.params;
+
+        const fechaInicio = new Date(anio, mes - 1, 1);
+        const fechaFin = new Date(anio, mes, 0);
+
+        var lista = await venta.findAll({
+            where: {
+                createdAt: {
+                    [models.Sequelize.Op.between]: [fechaInicio, fechaFin]
+                }
+            },
+            include: [
+                { model: models.comprador, as: "comprador", attributes: ['nombres', 'apellidos', 'cedula', 'direccion', 'celular', 'genero', 'fecha_nac', 'external_id'] },
+                { model: models.empleado, as: "empleado", attributes: ['nombres', 'apellidos', 'cedula'] },
+                {
+                    model: models.auto,
+                    as: "auto",
+                    attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id'],
+                    include:
+                        [
+                            { model: models.foto, as: "foto", attributes: ['archivo', 'external_id'] }
+                        ]
+                }
+            ],
+            attributes: ['numero', 'recargo', 'total', 'external_id']
+        });
+
+        if (lista === undefined || lista === null) {
+            res.status(404);
+            res.json({ msg: "Error", tag: "Ventas no encontradas", code: 404 });
+        } else if (lista.length === 0) {
+            res.status(200);
+            res.json({ msg: "OK", tag: "No hay ventas en el mes o año ingresados", code: 200, datos:{} });
+        } else {
+            res.status(200);
+            res.json({ msg: "OK", code: 200, datos: lista });
         }
 
     }
@@ -200,7 +229,7 @@ class VentaControl {
         let transaction = await models.sequelize.transaction();
         try {
 
-            const autosEnBD = await autO.findAll({where: {external_id: autos}});
+            const autosEnBD = await autO.findAll({ where: { external_id: autos } });
             console.log(autosEnBD);
             if (autosEnBD.length !== autos.length) {
                 res.status(401);
@@ -214,7 +243,7 @@ class VentaControl {
                 let precioAuto = auto.precio;
                 let recargoAuto = 0;
 
-                if(auto.color && !["blanco", "plata"].includes(auto.color.toLowerCase())) {
+                if (auto.color && !["blanco", "plata"].includes(auto.color.toLowerCase())) {
                     recargoAuto = precioAuto * 0.05;
                     precioAuto += recargoAuto;
                 }
@@ -225,8 +254,8 @@ class VentaControl {
                 return total + precioAuto;
             }, 0);
 
-            
-            
+
+
 
             var result = await venta.create(
                 {
@@ -256,14 +285,14 @@ class VentaControl {
                 res.status(401);
                 res.json({ msg: "Error", tag: "No se guardó la venta", code: 401 });
             } else {
-                empleadoAux.external_id = uuid.v4();
+                //empleadoAux.external_id = uuid.v4();
                 await empleadoAux.save();
-                compradorAux.external_id = uuid.v4();
+                //compradorAux.external_id = uuid.v4();
                 await compradorAux.save();
                 //autoAux.external_id = uuid.v4();
                 //await autoAux.save();
                 for (const auto of autosEnBD) {
-                    auto.external_id = uuid.v4();
+                    //auto.external_id = uuid.v4();
                     auto.estado = false;
                     await auto.save();
                 }
@@ -282,12 +311,12 @@ class VentaControl {
 
     async modificar(req, res) {
         const external = req.params.external;
-        const { autos } = req.body; 
+        const { autos } = req.body;
 
         var uuid = require('uuid');
-    
+
         let transaction = await models.sequelize.transaction();
-    
+
         try {
             const ventaAux = await venta.findOne({
                 where: { external_id: external },
@@ -295,23 +324,21 @@ class VentaControl {
                     { model: models.auto, as: "auto", attributes: ['external_id', 'precio', 'color'] }
                 ]
             });
-    
+
             if (!ventaAux) {
                 res.status(404);
                 res.json({ msg: "Error", tag: "Venta no encontrada", code: 404 });
                 return;
             }
-    
-            const autosActuales = ventaAux.auto.map(auto => ({ ...auto.toJSON(), estadoActual: auto.estado}));
-            console.log("actuales", autosActuales);
+
+            const autosActuales = ventaAux.auto.map(auto => ({ ...auto.toJSON(), estadoActual: auto.estado }));
+            //console.log("actuales", autosActuales);
 
             const autosEliminar = autosActuales.filter(auto => !autos.includes(auto.external_id));
-            console.log("a eliminar", autosEliminar);
+            //console.log("a eliminar", autosEliminar);
 
             const autosAgregar = autos.filter(autoId => !autosActuales.map(auto => auto.external_id).includes(autoId));
-            console.log("agregar", autosAgregar);
-
-            const externalAutosAgregados = autosAgregar.map(() => uuid.v4());
+            //console.log("agregar", autosAgregar);
 
             for (const autoEliminar of autosEliminar) {
                 await autO.update({ estado: true }, { where: { external_id: autoEliminar.external_id }, transaction });
@@ -321,11 +348,12 @@ class VentaControl {
                 attributes: ['id'],
                 where: { external_id: autosEliminar.map(auto => auto.external_id) },
                 transaction,
-              });
-              
+            });
+
             const idsAutosEliminar = autosEliminarConIDs.map(auto => auto.id);
+            console.log(idsAutosEliminar);
             await ventaAux.removeAuto(idsAutosEliminar, { transaction });
-    
+
             for (const autoAgregar of autosAgregar) {
                 await autO.update({ estado: false }, { where: { external_id: autoAgregar }, transaction });
             }
@@ -333,45 +361,40 @@ class VentaControl {
             const autosNuevos = await autO.findAll({ where: { external_id: autosAgregar } });
             await ventaAux.addAuto(autosNuevos, { transaction });
 
-            const autosActualizados = ventaAux.auto.filter(auto => !autosEliminar.includes(auto.external_id));
+            //console.log("autosEliminar", autosEliminar);
+            //console.log("autosNuevos", autosNuevos);
+            const autosActualizados = ventaAux.auto.filter(auto => !autosEliminar.map(el => el.external_id).includes(auto.external_id));
             autosActualizados.push(...autosNuevos);
-    
+            //console.log("autos actualizados", autosActualizados);
+
             let recargoTotal = 0;
-            console.log("venta-auto", ventaAux.auto);
             const totalPagar = autosActualizados.reduce((total, auto) => {
-                console.log("auto", auto);
                 let precioAuto = auto.precio;
                 let recargoAuto = 0;
-    
+
                 if (auto.color && !["blanco", "plata"].includes(auto.color.toLowerCase())) {
                     recargoAuto = precioAuto * 0.05;
                     precioAuto += recargoAuto;
                 }
-    
+
                 recargoTotal += recargoAuto;
 
-                //console.log("precioAuto:", precioAuto);
-                //console.log("recargoAuto:", recargoAuto);
-                //console.log("total acumulado:", total + precioAuto);
-    
                 return total + precioAuto;
             }, 0);
+            //console.log("recargo", recargoTotal);
+            //console.log("total", totalPagar);
 
-
-            //console.log("recargoTotal:", recargoTotal);
-            //console.log("totalPagar al final:", totalPagar);
-    
             await ventaAux.update(
                 {
                     recargo: recargoTotal,
                     total: totalPagar,
-                    external_id: uuid.v4()
+                    //external_id: uuid.v4()
                 },
                 { transaction }
             );
-    
+
             await transaction.commit();
-    
+
             res.status(200);
             res.json({ msg: "OK", code: 200 });
         } catch (error) {
@@ -381,7 +404,7 @@ class VentaControl {
             res.json({ msg: "Error", code: 203, error_msg: error });
         }
     }
-    
+
 
 }
 

@@ -1,8 +1,8 @@
 {
-  "/not-found": "app/not-found.js",
-  "/ventas/nuevo/page": "app/ventas/nuevo/page.js",
-  "/ventas/page": "app/ventas/page.js",
-  "/ventas/propias/page": "app/ventas/propias/page.js",
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/autos/file/[external]/page": "app/autos/file/[external]/page.js",
+  "/autos/vendidos/page": "app/autos/vendidos/page.js",
+  "/autos/disponibles/page": "app/autos/disponibles/page.js",
+  "/compradores/page": "app/compradores/page.js",
+  "/compradores/nuevo/page": "app/compradores/nuevo/page.js",
+  "/autos/disponibles/detalle/[external]/page": "app/autos/disponibles/detalle/[external]/page.js"
 }

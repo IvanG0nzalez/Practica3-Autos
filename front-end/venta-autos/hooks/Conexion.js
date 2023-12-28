@@ -1,4 +1,3 @@
-import { getToken } from "./SessionUtil";
 
 let URL = "http://localhost:3000/api/";
 export function url_api() {
@@ -6,7 +5,7 @@ export function url_api() {
 }
 
 export async function enviar(recurso, data) {
-  console.log("data en conexion", data);
+  //console.log("data en conexion", data);
   let headers = []
   headers = {
     "Content-Type": "application/json",
@@ -50,8 +49,7 @@ export async function obtener_ventas_empleado(recurso, token, external_id) {
   return responseData;
 }
 
-export async function guardar_venta(recurso, data) {
-  const token = getToken();
+export async function guardar(recurso, data, token) {
   const headers = {
     "Content-type": "application/json",
     "token": token,
@@ -59,6 +57,35 @@ export async function guardar_venta(recurso, data) {
 
   const response = await fetch(URL + recurso, {
     method: "POST",
+    headers: headers,
+    body: JSON.stringify(data),
+  });
+  const responseData = await response.json();
+  return responseData;
+}
+
+export async function guardar_imagen(recurso, data, token) {
+  const headers = {
+    "token": token,
+  };
+
+  const response = await fetch(URL + recurso, {
+    method: "POST",
+    headers: headers,
+    body: data,
+  });
+  const responseData = await response.json();
+  return responseData;
+}
+
+export async function modificar(recurso, data, token) {
+  const headers = {
+    "Content-type": "application/json",
+    "token": token,
+  };
+
+  const response = await fetch(URL + recurso, {
+    method: "PATCH",
     headers: headers,
     body: JSON.stringify(data),
   });

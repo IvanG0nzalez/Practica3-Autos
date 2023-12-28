@@ -21,7 +21,7 @@ class EmpleadoControl {
     }
 
     async obtener(req, res) {
-        const external = req.params.external;
+        const external = req.params.external_id;
         var lista = await empleado.findOne({
             where: { external_id: external },
             include: [
@@ -75,7 +75,7 @@ class EmpleadoControl {
                         res.status(401);
                         res.json({ msg: "Error", tag: "No se creó", code: 401 });
                     } else {
-                        rolAux.external_id = uuid.v4();
+                        //rolAux.external_id = uuid.v4();
                         await rolAux.save();
                         res.status(200);
                         res.json({ msg: "OK", code: 200 });
@@ -155,7 +155,7 @@ class EmpleadoControl {
 
         if (rolAux) {
             empleadoAux.id_rol = rolAux.id || empleadoAux.id_rol;
-            rolAux.external_id = uuid.v4();
+            //rolAux.external_id = uuid.v4();
             await rolAux.save();
         }
 
@@ -164,7 +164,7 @@ class EmpleadoControl {
             await empleadoAux.cuenta.save();
         }
 
-        empleadoAux.external_id = uuid.v4();
+        //empleadoAux.external_id = uuid.v4();
         await empleadoAux.save();
 
         res.status(200);

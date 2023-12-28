@@ -129,11 +129,13 @@ router.patch('/admin/rol/editar/:external', authGerente, rolControl.modificar);
 //api de auto
 router.get('/admin/autos', authGerente, autoControl.listarAutos);
 router.get('/admin/autosDisponibles', auth, autoControl.listarDisponibles);
-router.get('/admin/autosVendidos', auth, autoControl.listarVendidos);
+router.get('/admin/autosVendidos', authGerente, autoControl.listarVendidos);
 router.post('/admin/auto/guardar', authGerente, autoControl.guardar);
-router.get('/admin/autos/obtener/:external', auth, autoControl.obtener);
+router.get('/admin/autos/obtener/:external', authGerente, autoControl.obtener);
 router.post('/admin/autos/file/guardar', authGerente, autoControl.guardarFoto);
 router.patch('/admin/auto/editar/:external', authGerente, autoControl.modificar);
+//ruta para las imagenes
+router.use('/multimedia', express.static('public/multimedia'));
 
 //api de comprador
 router.get('/admin/compradores', auth, compradorControl.listar);
@@ -144,8 +146,9 @@ router.patch('/admin/comprador/editar/:external', auth, compradorControl.modific
 //api de venta
 router.get('/admin/ventas', auth, ventaControl.listar);
 router.post('/admin/venta/guardar', auth, ventaControl.guardar);
-router.get('/admin/ventas/obtener/:external_empleado', auth, ventaControl.obtenerPorEmpleado);
-router.get('/admin/ventas/obtener/:external_empleado/:anio/:mes', auth, ventaControl.obtenerPorFechaYEmpleado);
+router.get('/admin/ventas/obtener/:external', auth, ventaControl.obtener);
+router.get('/admin/ventas/obtener/e/:external_empleado', auth, ventaControl.obtenerPorEmpleado);
+router.get('/admin/ventas/obtener/e/:external_empleado/:anio/:mes', auth, ventaControl.obtenerPorFechaYEmpleado);
 router.get('/admin/ventas/obtener/:anio/:mes', auth, ventaControl.obtenerPorFecha);
 router.patch('/admin/venta/editar/:external', auth, ventaControl.modificar);
 

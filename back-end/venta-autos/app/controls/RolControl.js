@@ -59,7 +59,7 @@ class RolControl {
         }
 
         rolAux.nombre = nombre;
-        rolAux.external_id = uuid.v4();
+        //rolAux.external_id = uuid.v4();
 
         await rolAux.save();
 

@@ -3,6 +3,8 @@ import { borrarSesion } from "@/hooks/SessionUtil";
 import Link from "next/link";
 import mensajes from "./Mensajes";
 import { redirect, useRouter } from "next/navigation";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+
 export default function Menu_vendedor() {
     const router = useRouter();
     const salir = async () => {
@@ -12,29 +14,22 @@ export default function Menu_vendedor() {
         router.refresh();
     }
     return (
-        <nav className="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-            <div className="container-fluid">
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item">
-                            <Link href="#" onClick={salir} className="nav-link active" aria-current="page">Cerrar Sesión</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="/ventas" className="nav-link active" aria-current="page">Ventas</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="/ventas/propias" className="nav-link active" aria-current="page">Mis ventas</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="/ventas/nuevo" className="nav-link active" aria-current="page">Nueva venta</Link>
-                        </li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <Navbar bg="dark" expand="lg" variant="dark">
+        <div className="container-fluid">
+          <Navbar.Toggle aria-controls="navbarSupportedContent" />
+          <Navbar.Collapse id="navbarSupportedContent">
+            <Nav className="me-auto">
+              <Nav.Link onClick={salir}>Cerrar Sesión</Nav.Link>
+              
+              <NavDropdown title="Ventas" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/ventas">Ventas</NavDropdown.Item>
+                  <NavDropdown.Item href="/ventas/propias">Mis Ventas</NavDropdown.Item>
+              </NavDropdown>
+  
+              <Nav.Link href="/compradores">Compradores</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </div>
+      </Navbar>
     );
 }

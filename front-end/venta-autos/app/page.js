@@ -26,9 +26,9 @@ export default function Home() {
       "usuario": data.usuario,
       "clave": data.clave,
     };
-    console.log("data en el page: ",data);
+    //console.log("data en el page: ",data);
     inicio_sesion(data).then((info) => {
-      console.log("en el page", info);
+      //console.log("en el page", info);
       if (!estaSesion()) {
         mensajes("Error al iniciar sesión!", info.msg, "error");
       } else {

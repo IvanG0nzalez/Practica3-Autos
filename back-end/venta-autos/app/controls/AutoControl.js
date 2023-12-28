@@ -12,7 +12,7 @@ class AutoControl {
             include: [
                 { model: models.foto, as: "foto", attributes: ['archivo'] },
             ],
-            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id']
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'estado', 'external_id']
         });
         if (lista === undefined || lista === null) {
             res.status(200);
@@ -64,7 +64,7 @@ class AutoControl {
             include: [
                 { model: models.foto, as: "foto", attributes: ['archivo'] },
             ],
-            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'external_id']
+            attributes: ['marca', 'modelo', 'anio', 'color', 'precio', 'estado', 'external_id']
         });
         if (lista === undefined || lista === null) {
             res.status(404);
@@ -203,7 +203,7 @@ class AutoControl {
                     res.json({ msg: 'ERROR', tag: 'Solo soporta ' + extensiones, code: 400 });
                 }
             }
-            autoAux.external_id = uuid.v4();
+            //autoAux.external_id = uuid.v4();
             await autoAux.save();
             res.status(200);
             res.json({ msg: 'OK', tag: 'Archivo guardado', code: 200 });
@@ -232,7 +232,7 @@ class AutoControl {
             autoAux.anio = anio || autoAux.anio;
             autoAux.color = color || autoAux.color;
             autoAux.precio = precio || autoAux.precio;
-            autoAux.external_id = uuid.v4();
+            //autoAux.external_id = uuid.v4();
 
             await autoAux.save();
 

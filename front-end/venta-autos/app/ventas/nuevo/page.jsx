@@ -9,7 +9,7 @@ import mensajes from '@/componentes/Mensajes';
 import Link from 'next/link';
 import Menu_gerente from '@/componentes/menu_gerente';
 import Menu_vendedor from '@/componentes/menu_vendedor';
-import { guardar_venta } from '@/hooks/Conexion';
+import { guardar } from '@/hooks/Conexion';
 import { obtener } from '@/hooks/Conexion';
 
 
@@ -24,11 +24,8 @@ export default function Nuevo() {
     });
 
     const formOptions = { resolver: yupResolver(validationShema) };
-    const { control, register, handleSubmit, formState, setValue, watch } = useForm(formOptions);
-    const {fields, append, remove } = useFieldArray({
-        control,
-        name: 'autos',
-    });
+    const { register, handleSubmit, formState, setValue, watch } = useForm(formOptions);
+
     const { errors } = formState;
 
     const [compradores, setCompradores] = useState([]);
@@ -40,8 +37,8 @@ export default function Nuevo() {
             try {
                 const response_compradores = await obtener('admin/compradores', token);
                 const response_autos = await obtener('admin/autosDisponibles', token);
-                console.log("compradores", response_compradores);
-                console.log("autos", response_autos);
+                //console.log("compradores", response_compradores);
+                //console.log("autos", response_autos);
                 setCompradores(response_compradores.datos);
                 setAutos(response_autos.datos);
             } catch (error) {
@@ -77,10 +74,15 @@ export default function Nuevo() {
         };
         console.log("dato", dato);
 
-        guardar_venta("admin/venta/guardar", dato).then((info) => {
+        guardar("admin/venta/guardar", dato, token).then((info) => {
             console.log("info", info);
-            mensajes("Censo registrado correctamente", "OK", "sucess");
-            router.push("/ventas/propias");
+            if(info.code === 200) {
+                mensajes("Venta registrada correctamente", "OK", "sucess");
+                router.push("/ventas/propias");
+            } else {
+                mensajes("Error al agregar la venta!", "Error", "error");
+            }
+
         });
     };
 
@@ -174,8 +176,8 @@ export default function Nuevo() {
 
                     <div className="d-flex gap-4">
                         <button type="submit" className="btn btn-outline-dark btn-lg px-5" id='boton-nuevo-auto'>Agregar</button>
-                        <Link href="/ventas">
-                            <button className="btn btn-outline-dark btn-lg px-5">Volver</button>
+                        <Link href="/ventas/propias">
+                            <button className="btn btn-outline-dark btn-lg px-5">Cancelar</button>
                         </Link>
                     </div>
                 </form>
