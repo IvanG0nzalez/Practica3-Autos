@@ -185,11 +185,11 @@ class AutoControl {
                     }
                     var nuevaFoto = await foto.create(dataFoto);
 
-                    if (nuevaFoto === null) {
+                    /*if (nuevaFoto === null) {
                         res.status(401);
                         res.json({ msg: "Error", tag: `No se guardó la foto '${file.originalFilename}'`, code: 401 });
                         return;
-                    }
+                    }*/
 
                     fs.rename(file.filepath, 'public/multimedia/' + name, async function (err) {
                         if (err) {
