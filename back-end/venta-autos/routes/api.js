@@ -1,18 +1,6 @@
 var express = require('express');
 var router = express.Router();
 let jwt = require('jsonwebtoken');
-const cors = require('cors');
-
-const corsOptions = {
-  origin: 'http://localhost:4000',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-
-
-router.use(cors(corsOptions));
-
 
 const empleadoC = require('../app/controls/EmpleadoControl');
 let empleadoControl = new empleadoC();
