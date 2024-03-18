@@ -8,7 +8,6 @@ import Menu_vendedor from '@/componentes/menu_vendedor';
 import { obtener } from '@/hooks/Conexion';
 import { useForm } from "react-hook-form";
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Page({ params }) {
     const external = params.external;
@@ -37,7 +36,7 @@ export default function Page({ params }) {
         };
 
         fetchResultados();
-    }, [external, setValue, token]);
+    }, [external, token]);
 
     const { setValue } = useForm();
 
@@ -72,8 +71,8 @@ export default function Page({ params }) {
                             <ul className='list-inline'>
                                 {respuesta.foto.map((foto, index) => (
                                     <li key={index} className='list-inline-item'>
-                                        <Image
-                                            src={`http://localhost:3000/multimedia/${foto.archivo}`}
+                                        <img
+                                            src={`https://back-end-autos.onrender.com/multimedia/${foto.archivo}`}
                                             alt={`Foto ${index + 1}`}
                                             style={{ maxWidth: '250px', maxHeight: '250px' }}
                                         />
