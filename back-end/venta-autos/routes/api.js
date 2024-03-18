@@ -138,9 +138,9 @@ router.patch('/admin/auto/editar/:external', authGerente, autoControl.modificar)
 router.use('/multimedia', express.static('public/multimedia'));
 
 //api de comprador
-router.get('/admin/compradores', auth, compradorControl.listar);
+router.get('/admin/compradores', compradorControl.listar);
 router.post('/admin/comprador/guardar', auth, compradorControl.guardar);
-router.get('/admin/compradores/obtener/:external', auth, compradorControl.obtener);
+router.get('/admin/compradores/obtener/:external', compradorControl.obtener);
 router.patch('/admin/comprador/editar/:external', auth, compradorControl.modificar);
 
 //api de venta

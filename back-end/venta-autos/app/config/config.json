@@ -1,24 +1,35 @@
 {
     "development": {
-        "username": "admin",
-        "password": "1405",
-        "database": "db_autos",
+        "username": "uvmxw1isy57sopx4",
+        "password": "0xIOySwrNJ8RDBy28eiF",
+        "database": "bvqwtvwrkdzckmmnxkbh",
         "dialect": "mysql",
-        "host": "127.0.0.1",
+        "host": "bvqwtvwrkdzckmmnxkbh-mysql.services.clever-cloud.com",
+        "port": "3306",
+        "ssl": true,
+        "sslMode": "REQUIRED",
         "operatorAliases": false
     },
     "staging": {
-        "username":"admin_st",
-        "password":"1405",
-        "database":"db_autos",
-        "dialect":"mysql",
-        "operatorAliases":false
+        "username": "uvmxw1isy57sopx4",
+        "password": "0xIOySwrNJ8RDBy28eiF",
+        "database": "bvqwtvwrkdzckmmnxkbh",
+        "dialect": "mysql",
+        "host": "bvqwtvwrkdzckmmnxkbh-mysql.services.clever-cloud.com",
+        "port": "3306",
+        "ssl": true,
+        "sslMode": "REQUIRED",
+        "operatorAliases": false
     },
     "production": {
-        "username":"admin_pd",
-        "password":"1405",
-        "database":"db_autos",
-        "dialect":"mysql",
-        "operatorAliases":false
+        "username": "uvmxw1isy57sopx4",
+        "password": "0xIOySwrNJ8RDBy28eiF",
+        "database": "bvqwtvwrkdzckmmnxkbh",
+        "dialect": "mysql",
+        "host": "bvqwtvwrkdzckmmnxkbh-mysql.services.clever-cloud.com",
+        "port": "3306",
+        "ssl": true,
+        "sslMode": "REQUIRED",
+        "operatorAliases": false
     }
 }

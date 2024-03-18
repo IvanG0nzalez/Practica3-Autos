@@ -45,12 +45,12 @@ class CuentaControl {
                         console.log(cuentaAux.empleado);
                         var info = {
                             token: token,
-                            user: cuentaAux.empleado.apellidos+' '+cuentaAux.empleado.nombres,
+                            user: cuentaAux.empleado.nombres+' '+cuentaAux.empleado.apellidos,
                             external_id: cuentaAux.empleado.external_id,
                             rol: rolAux.nombre
                         };
                         res.status(200);
-                        res.json({ msg: "OK", tag: "Logueado", code: 200, data:info }); 
+                        res.json({ msg: "OK", tag: "Logueado", code: 200, datos:info }); 
                     } else {
                         res.status(400);
                         res.json({ msg: "Error", tag: "Nice try", code: 400 }); 

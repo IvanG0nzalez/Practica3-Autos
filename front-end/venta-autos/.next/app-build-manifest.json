@@ -1,5 +1,10 @@
 {
   "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -16,11 +21,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/ventas/propias/page.js"
     ],
-    "/ventas/nuevo/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ventas/nuevo/page.js"
-    ],
     "/autos/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -30,41 +30,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/autos/detalle/[external]/page.js"
-    ],
-    "/autos/file/[external]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/autos/file/[external]/page.js"
-    ],
-    "/autos/editar/[external]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/autos/editar/[external]/page.js"
-    ],
-    "/autos/vendidos/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/autos/vendidos/page.js"
-    ],
-    "/autos/disponibles/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/autos/disponibles/page.js"
-    ],
-    "/compradores/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/compradores/page.js"
-    ],
-    "/compradores/nuevo/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/compradores/nuevo/page.js"
-    ],
-    "/autos/disponibles/detalle/[external]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/autos/disponibles/detalle/[external]/page.js"
     ]
   }
 }

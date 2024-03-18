@@ -1,8 +1,7 @@
 {
-  "/autos/file/[external]/page": "app/autos/file/[external]/page.js",
-  "/autos/vendidos/page": "app/autos/vendidos/page.js",
-  "/autos/disponibles/page": "app/autos/disponibles/page.js",
-  "/compradores/page": "app/compradores/page.js",
-  "/compradores/nuevo/page": "app/compradores/nuevo/page.js",
-  "/autos/disponibles/detalle/[external]/page": "app/autos/disponibles/detalle/[external]/page.js"
+  "/page": "app/page.js",
+  "/ventas/propias/page": "app/ventas/propias/page.js",
+  "/ventas/page": "app/ventas/page.js",
+  "/autos/page": "app/autos/page.js",
+  "/autos/detalle/[external]/page": "app/autos/detalle/[external]/page.js"
 }
