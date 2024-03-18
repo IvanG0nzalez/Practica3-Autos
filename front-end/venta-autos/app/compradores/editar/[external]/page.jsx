@@ -38,7 +38,7 @@ export default function Page({ params }) {
         };
 
         fetchResultados();
-    }, []);
+    }, [external, setValue, token]);
 
     const validationShema = Yup.object().shape({
         nombres: Yup.string().required("Ingrese sus nombres"),

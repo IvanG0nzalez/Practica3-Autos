@@ -48,7 +48,7 @@ export default function Page({ params }) {
         };
 
         fetchResultados();
-    }, []);
+    }, [external_user, token, setValue, external]);
 
     const { register, handleSubmit, formState, setValue, watch } = useForm({
         defaultValues: respuesta,

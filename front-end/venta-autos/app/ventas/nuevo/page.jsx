@@ -47,7 +47,7 @@ export default function Nuevo() {
         };
 
         fetchResultados();
-    }, []);
+    }, [token]);
 
     const addAutoToTable = (auto) => {
         // Verificar que el auto no esté ya en la lista

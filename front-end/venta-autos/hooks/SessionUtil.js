@@ -1,28 +1,44 @@
 export const save = (key, data) => {
-    sessionStorage.setItem(key, data);
-}
+    if (typeof window !== "undefined") {
+        sessionStorage.setItem(key, data);
+    }
+};
 
 export const get = (key) => {
-    return sessionStorage.getItem(key);
-}
+    if (typeof window !== "undefined") {
+        return sessionStorage.getItem(key);
+    }
+};
 
 export const saveToken = (key) => {
-    sessionStorage.setItem("token", key);
-}
+    if (typeof window !== "undefined") {
+        sessionStorage.setItem("token", key);
+    }
+};
 
 export const getToken = () => {
-    return sessionStorage.getItem("token");
-}
+    if (typeof window !== "undefined") {
+        return sessionStorage.getItem("token");
+    }
+};
 
 export const getExternalUser = () => {
-    return sessionStorage.getItem('external_id');
-}
+    if (typeof window !== "undefined") {
+        return sessionStorage.getItem('external_id');
+
+    }
+};
 
 export const borrarSesion = () => {
-    sessionStorage.clear();
-}
-    
+    if (typeof window !== "undefined") {
+        sessionStorage.clear();
+    }
+};
+
 export const estaSesion = () => {
-    var token = sessionStorage.getItem('token');
-    return (token && (token !== 'undefined' || token !== null || token !== 'null'));
-}
+    if (typeof window !== "undefined") {
+        var token = sessionStorage.getItem('token');
+        return (token && (token !== 'undefined' || token !== null || token !== 'null'));
+    }
+
+};
