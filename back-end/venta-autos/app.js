@@ -8,6 +8,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api');
 const cors = require('cors');
 
+const inicializarRoles = require('./scripts/inicializarRoles');
+const inicializarGerente = require('./scripts/inicializarGerente');
+
+const corsOptions = {
+  origin: 'http://web:3000',
+  optionsSuccessStatus: 200
+};
+
 var app = express();
 
 // view engine setup
@@ -19,15 +27,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/', indexRouter);
 app.use('/api', usersRouter);
 
 //sync models
 let models = require('./app/models');
-models.sequelize.sync().then(() =>{
-  console.log("Se sincronizó");
+models.sequelize.sync().then(async () =>{
+  console.log('\x1b[33m%s\x1b[0m', "Se sincronizaron los modelos");
+  await inicializarRoles();
+  await inicializarGerente();
 }).catch(err => {
   console.log(err,"ERROR!");
 });

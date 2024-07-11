@@ -4,8 +4,9 @@
       "password": "1405",
       "database": "db_autos",
       "dialect": "mysql",
-      "host": "127.0.0.1",
-      "operatorsAliases": false
+      "host": "mysqldb",
+      "operatorsAliases": false,
+      "port": 3306
   },
   "staging": {
       "username":"admin_st",

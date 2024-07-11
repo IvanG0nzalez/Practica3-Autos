@@ -66,7 +66,7 @@ export default function Home() {
                         className={`form-control ${errors.usuario ? 'is-invalid' : ''}`} />
                       <label className="form-label">Usuario</label>
                       <div className='alert alert-danger invalid-feedback'>
-                        {errors.identificador?.message}
+                        {errors.usuario?.message}
                       </div>
                     </div>
 

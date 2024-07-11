@@ -1,5 +1,5 @@
 
-let URL = "https://back-end-autos.onrender.com/api/";
+let URL = "http://app:3000/api/";
 export function url_api() {
   return URL;
 }
@@ -10,7 +10,6 @@ export async function enviar(recurso, data) {
   headers = {
     "Content-Type": "application/json",
   };
-
 
   const response = await fetch(URL + recurso, {
     method: "POST",

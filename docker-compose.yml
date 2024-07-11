@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:latest
+    container_name: mysqldb_autos
+    environment:
+      - MYSQL_ROOT_PASSWORD=1405
+      - MYSQL_DATABASE=db_autos
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=1405
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 5s
+
+  app:
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    build: ./back-end/venta-autos
+    container_name: backend_autos
+    ports:
+      - 3000:3000
+  
+  web:
+    depends_on:
+      - app
+    build: ./front-end/venta-autos
+    container_name: frontend_autos
+    ports:
+      - 3001:3000
+
+volumes:
+  db:

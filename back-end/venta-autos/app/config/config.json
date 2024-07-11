@@ -1,14 +1,12 @@
 {
     "development": {
-        "username": "uvmxw1isy57sopx4",
-        "password": "0xIOySwrNJ8RDBy28eiF",
-        "database": "bvqwtvwrkdzckmmnxkbh",
+        "username": "admin",
+        "password": "1405",
+        "database": "db_autos",
         "dialect": "mysql",
-        "host": "bvqwtvwrkdzckmmnxkbh-mysql.services.clever-cloud.com",
-        "port": "3306",
-        "ssl": true,
-        "sslMode": "REQUIRED",
-        "operatorAliases": false
+        "host": "mysqldb",
+        "operatorsAliases": false,
+        "port": 3306
     },
     "staging": {
         "username": "uvmxw1isy57sopx4",
